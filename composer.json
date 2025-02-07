@@ -1,0 +1,16 @@
+{
+    "name": "goiga/php-blog",
+    "authors": [
+        {
+            "name": "shahaf-Segal",
+            "email": "shahaf100@outlook.co.il"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    }
+}

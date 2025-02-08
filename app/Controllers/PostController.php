@@ -8,8 +8,9 @@ class PostController
     {
         return 'Posts!';
     }
-    public function show(int $id): string
+    public function show(array $params): string
     {
+        $id = $params['id'];
         return "Post $id";
     }
 }

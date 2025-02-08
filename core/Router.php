@@ -5,10 +5,30 @@ namespace Core;
 class Router
 {
     protected array $routes = [];
-    public function add(string $uri, string $method, string $controller): void {}
+    public function add(string $uri, string $method, string $controller): void
+    {
+        $this->routes[] = [
+            'method' => $method,
+            'uri' => $uri,
+            'controller' => $controller
+        ];
+    }
+
+
+
     public function dispatch(string $uri, string $method): string
     {
-        return '';
+        $route = $this->findRoute($uri, $method);
+        if ($route === null) {
+            return $this->notFound();
+        }
+        [$controller, $action] = explode('@', $route['controller']);
+        return $this->callAction($controller, $action, $route['params']);
+    }
+
+    public function notFound(): string
+    {
+        return '404';
     }
 
     protected function findRoute(string $uri, string $method): ?array

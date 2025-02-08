@@ -33,14 +33,18 @@ class Router
 
     protected function findRoute(string $uri, string $method): ?array
     {
+
         foreach ($this->routes as $route) {
-            if ($route['method'] !== $method) {
+            if ($route['method'] === $method) {
                 $params = $this->matchRoute($route['uri'], $uri);
-                if ($$params !== null) {
+
+                if ($params !== null) {
                     return [...$route, 'params' => $params];
                 }
             }
         }
+
+        return null;
     }
 
     protected function matchRoute(string $routeUri, string $reqUri): ?array
@@ -64,7 +68,8 @@ class Router
 
     protected function callAction(string $controller, string $action, array $params): string
     {
-        $controllerClass = "App\\Controllers\\$controller";
-        return (new $controllerClass)->$action($params);
+        $controllerClass = "App\\Controllers\\" . $controller;
+        $controllerInstance = new $controllerClass;
+        return $controllerInstance->$action($params);
     }
 }

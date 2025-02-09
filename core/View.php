@@ -15,7 +15,7 @@ class View
 
     protected static function renderTemplate(string $template, array $data): string
     {
-        $path = dirname(__DIR__) . '/../app/Views/' . $template . '.php';
+        $path = dirname(__DIR__) . '/app/Views/' . $template . '.php';
         if (!file_exists($path)) {
             throw new RuntimeException("Error: Template not found");
         }
@@ -25,7 +25,7 @@ class View
         return ob_get_clean();
     }
 
-    protected static function renderLayout(string $template, array $data, string $content): string
+    protected static function renderLayout(?string $template, array $data, string $content): string
     {
         if ($template === null) {
             return $content;

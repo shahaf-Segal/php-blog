@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use Core\View;
+
 class HomeController
 {
     public function index(): string
     {
-        return 'Hello World!';
+        return View::render('Home/index');
     }
 }

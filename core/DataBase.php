@@ -4,6 +4,7 @@ namespace Core;
 
 use Exception;
 use PDO;
+use PDOStatement;
 
 class DataBase
 {
@@ -12,7 +13,11 @@ class DataBase
     {
         try {
             $dsn = $this->createDsn($config);
-            $this->pdo = new PDO($dsn);
+            $dbUser = $config['username'] ?? null;
+            $dbPassword = $config['password'] ?? null;
+            $options = $config['options'] ?? null;
+            $this->pdo = new PDO($dsn, $dbUser, $dbPassword, $options);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
             throw new Exception("Error:  Starting DataBase Failed");
         }
@@ -26,5 +31,24 @@ class DataBase
             "sqlite" => "sqlite:$dbname",
             default => throw new Exception("Error: Driver Unsupported $driver"),
         };
+    }
+    public function query(string $sql, array $params = []): PDOStatement
+    {
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+        return $statement;
+    }
+
+    public function fetchAll(string $sql, array $params = []): array
+    {
+        return $this->query($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function fetch(string $sql, array $params = []): array|false
+    {
+        return $this->query($sql, $params)->fetch(PDO::FETCH_ASSOC);
+    }
+    public function lastInertId(): string|false
+    {
+        return $this->pdo->lastInsertId();
     }
 }

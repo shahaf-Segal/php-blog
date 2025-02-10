@@ -32,7 +32,7 @@ class View
         }
 
         extract([...$data, 'content' => $content]);
-        $path = dirname(__DIR__) . '/../app/Views/' . $template . '.php';
+        $path = dirname(__DIR__) . '/app/Views/' . $template . '.php';
         if (!file_exists($path)) {
             throw new RuntimeException("Error: Template not found");
         }

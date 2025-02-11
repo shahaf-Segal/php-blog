@@ -12,5 +12,8 @@
             "App\\": "./app/",
             "Core\\": "./core/"
         }
+    },
+     "scripts": {
+        "schema-load": "php bin/schema_load.php"
     }
 }

@@ -13,10 +13,16 @@ class DataBase
     {
         try {
             $dsn = $this->createDsn($config);
-            $dbUser = $config['username'] ?? null;
-            $dbPassword = $config['password'] ?? null;
-            $options = $config['options'] ?? null;
-            $this->pdo = new PDO($dsn, $dbUser, $dbPassword, $options);
+            $dbUser = $config['username'] ?? "";
+            $dbPassword = $config['password'] ?? "";
+            $options = $config['options'] ?? [];
+
+            $this->pdo = new PDO(
+                dsn: $dsn,
+                username: $dbUser,
+                password: $dbPassword,
+                options: $options
+            );
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
             throw new Exception("Error:  Starting DataBase Failed");

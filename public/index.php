@@ -7,8 +7,6 @@ require_once __DIR__ . '/../bootstrap.php';
 use Core\App;
 use Core\Router;
 
-var_dump(App::get('config'));
-
 $router = new Router();
 require_once __DIR__ . '/../routes.php';
 

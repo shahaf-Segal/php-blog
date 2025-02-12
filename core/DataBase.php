@@ -40,6 +40,7 @@ class DataBase
     }
     public function query(string $sql, array $params = []): PDOStatement
     {
+        var_dump($sql, $params);
         $statement = $this->pdo->prepare($sql);
         $statement->execute($params);
         return $statement;
@@ -53,7 +54,7 @@ class DataBase
     {
         return $this->query($sql, $params)->fetch(PDO::FETCH_ASSOC);
     }
-    public function lastInertId(): string|false
+    public function lastInsertId(): string|false
     {
         return $this->pdo->lastInsertId();
     }

@@ -4,7 +4,7 @@ namespace Core;
 
 abstract class Model
 {
-    protected $table;
+    protected static $table;
 
     public static function all(): array
     {
@@ -18,13 +18,12 @@ abstract class Model
         $result = $db->fetch("SELECT * FROM " . static::$table . " WHERE id = :id", ['id' => $id]);
         return $result ? static::createFromArray($result) : null;
     }
-    public function create(array $data): static
+    public static function create(array $data): static
     {
         $db = App::get('database');
         $collumns = implode(',', array_keys($data));
-        $placeholders = implode(',', array_fill(0, count($data), '?'));
-        // '?,' * count($data);
-        $sql = "INSERT INTO " . static::$table . " ($collumns) VALUES (:" . $placeholders . ")";
+        $placeholders = implode(',', array_map(fn($key) => ':' . $key, array_keys($data)));
+        $sql = "INSERT INTO " . static::$table . " ($collumns) VALUES ($placeholders)";
         $db->query($sql, $data);
         return static::find($db->lastInsertId());
     }

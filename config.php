@@ -2,7 +2,8 @@
 return [
     "app" => [
         "name" => "My Blog",
-        "debug" => true
+        "debug" => true,
+        "error_log" => __DIR__ . "/logs/error.log"
     ],
     "database" => [
         "driver" => "sqlite",

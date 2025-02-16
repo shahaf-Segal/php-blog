@@ -15,6 +15,7 @@ class ErrorHandler
     //also stores the error in the error log
     public static function handleException(Throwable $e): void
     {
+        static::logError($e);
         if (php_sapi_name() === 'cli') {
             static::renderCLliError($e);
         } else {
@@ -51,5 +52,10 @@ class ErrorHandler
             $e->getFile(),
             $e->getLine()
         );
+    }
+    private static function logError(Throwable $e): void
+    {
+        $logMessage = static::formatErrorMsg($e, "[%s] Error: %s in %s on Line %d\n");
+        error_log($logMessage, 3, App::get('config')['app']['error_log']);
     }
 }

@@ -4,12 +4,13 @@ use Core\App;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-
+throw new Exception("Unable to connect to DB");
 
 $database = App::get('database');
 
 $schemafile = __DIR__ . '/../database/schema.sql';
 $sql = file_get_contents($schemafile);
+
 echo "Loading schema...\n";
 try {
     $parts = array_filter(explode(';', $sql));

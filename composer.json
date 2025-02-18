@@ -14,6 +14,7 @@
         }
     },
      "scripts": {
-        "schema-load": "php bin/schema_load.php"
+        "schema:load": "php bin/schema_load.php",
+        "schema:fix": "php bin/schema_fixtures.php"
     }
 }

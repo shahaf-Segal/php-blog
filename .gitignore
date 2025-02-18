@@ -1,3 +1,4 @@
 /vendor/
 *.sqlite
 logs/error.log
+*.sqlite-journal

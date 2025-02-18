@@ -8,6 +8,9 @@ use Core\App;
 use Core\DataBase;
 use Core\ErrorHandler;
 
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
 set_exception_handler([ErrorHandler::class, 'handleException']);
 set_error_handler([ErrorHandler::class, 'handleError']);
 

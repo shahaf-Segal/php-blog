@@ -6,7 +6,7 @@ use RuntimeException;
 
 class View
 {
-    public static function render(string $template, array $data = [], string $layout = null): string
+    public static function render(string $template, array $data = [], ?string $layout = null): string
     {
         $content = static::renderTemplate($template, $data);
 
@@ -19,6 +19,7 @@ class View
         if (!file_exists($path)) {
             throw new RuntimeException("Error: Template not found");
         }
+        extract([...$data, 'content' => $content]);
 
         ob_start();
         require $path;

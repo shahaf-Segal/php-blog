@@ -19,7 +19,7 @@ class View
         if (!file_exists($path)) {
             throw new RuntimeException("Error: Template not found");
         }
-        extract([...$data, 'content' => $content]);
+        extract([...$data]);
 
         ob_start();
         require $path;

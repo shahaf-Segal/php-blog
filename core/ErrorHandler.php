@@ -26,10 +26,10 @@ class ErrorHandler
     {
         $isDebug = App::get('config')['app']['debug'] ?? false;
         if ($isDebug) {
-            $errMsg = static::formatErrorMsg($e, "\033[31m[%s] Error: \33[0m %s in %s on Line %d\n");
+            $errMsg = static::formatErrorMsg($e, "\033[31m[%s] %s: \33[0m  %s in %s on Line %d\n");
             $trace = $e->getTraceAsString();
         } else {
-            $errMsg = "\033[31m Unepected Error. check error log for details \33[0m\n";
+            $errMsg = "\033[31m Unexpected Error. check error log for details \33[0m\n";
             $trace = "";
         }
         fwrite(STDERR, $errMsg);
@@ -40,7 +40,26 @@ class ErrorHandler
     }
     private static function renderErrorPage(Throwable $e): void
     {
-        echo $e->getMessage();
+        $isDebug = App::get('config')['app']['debug'] ?? false;
+        if ($isDebug) {
+            $errorMessage = static::formatErrorMsg($e, "[%s] %s:  %s in %s on Line %d\n");
+            $trace = $e->getTraceAsString();
+        } else {
+            $errorMessage = "Unexpected Error. check error log for details";
+            $trace = "";
+        }
+        http_response_code(500);
+
+        echo View::render(
+            'errors/500',
+            [
+                'errorMessage' => $errorMessage,
+                'trace' => $trace,
+                'isDebug' => $isDebug
+            ],
+            'layouts/main'
+        );
+        exit();
     }
     private static function formatErrorMsg(Throwable $e, string $format): string
     {
@@ -55,7 +74,7 @@ class ErrorHandler
     }
     private static function logError(Throwable $e): void
     {
-        $logMessage = static::formatErrorMsg($e, "[%s] Error: %s in %s on Line %d\n");
+        $logMessage = static::formatErrorMsg($e, "[%s] %s: %s in %s on Line %d\n");
         error_log($logMessage, 3, App::get('config')['app']['error_log']);
     }
 }

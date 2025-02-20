@@ -45,13 +45,21 @@ class DataBase
         return $statement;
     }
 
-    public function fetchAll(string $sql, array $params = []): array
+    public function fetchAll(string $sql, array $params = [], ?string $class = null): array
     {
-        return $this->query($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->query($sql, $params);
+        return ($class ?
+            $statement->fetchAll(PDO::FETCH_CLASS, $class) :
+            $statement->fetchAll(PDO::FETCH_ASSOC)
+        );
     }
     public function fetch(string $sql, array $params = []): array|false
     {
         return $this->query($sql, $params)->fetch(PDO::FETCH_ASSOC);
+        return ($class ?
+            $statement->fetch(PDO::FETCH_CLASS, $class) :
+            $statement->fetch(PDO::FETCH_ASSOC)
+        );
     }
     public function lastInsertId(): string|false
     {

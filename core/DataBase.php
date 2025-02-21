@@ -53,9 +53,9 @@ class DataBase
             $statement->fetchAll(PDO::FETCH_ASSOC)
         );
     }
-    public function fetch(string $sql, array $params = []): array|false
+    public function fetch(string $sql, array $params = [], ?string $class = null): array|false
     {
-        return $this->query($sql, $params)->fetch(PDO::FETCH_ASSOC);
+        $statement = $this->query($sql, $params);
         return ($class ?
             $statement->fetch(PDO::FETCH_CLASS, $class) :
             $statement->fetch(PDO::FETCH_ASSOC)

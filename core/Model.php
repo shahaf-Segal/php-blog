@@ -15,7 +15,7 @@ abstract class Model
             static::class
         );
     }
-    public static function find(mixed $id): static|null
+    public static function find(mixed $id): static | false
     {
         $db = App::get('database');
         return $db->fetch(

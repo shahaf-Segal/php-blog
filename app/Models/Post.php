@@ -21,4 +21,9 @@ class Post extends Model
         $db = App::get('database');
         return $db->fetchAll("SELECT * FROM " . static::$table . " ORDER BY created_at DESC LIMIT ?", [$limit], static::class);
     }
+    public function incrementViews(): void
+    {
+        $db = App::get('database');
+        $db->query("UPDATE " . static::$table . " SET views = views + 1 WHERE id = ?", [$this->id]);
+    }
 }

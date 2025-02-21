@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
+use Core\View;
 use Core\Router;
 
 class PostController
@@ -19,7 +21,17 @@ class PostController
         if (!$post) {
             Router::notFound();
         }
+        $comments = Comment::getForPost($id);
 
-        return "$post->title - $id";
+        $post->incrementViews($id);
+
+        return View::render(
+            template: 'Post/show',
+            data: [
+                'post' => $post,
+                'comments' => $comments
+            ],
+            layout: 'layouts/main'
+        );
     }
 }

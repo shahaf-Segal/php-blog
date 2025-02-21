@@ -29,7 +29,7 @@ class Router
     public static function notFound(): void
     {
         http_response_code(404);
-        echo "404 Not Found";
+        echo View::render('errors/404', [], 'layouts/main');
         exit;
     }
 

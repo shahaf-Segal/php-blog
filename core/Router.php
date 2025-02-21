@@ -26,9 +26,11 @@ class Router
         return $this->callAction($controller, $action, $route['params']);
     }
 
-    public function notFound(): string
+    public static function notFound(): void
     {
-        return '404';
+        http_response_code(404);
+        echo "404 Not Found";
+        exit;
     }
 
     protected function findRoute(string $uri, string $method): ?array

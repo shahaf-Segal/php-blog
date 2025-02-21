@@ -19,6 +19,6 @@ class Post extends Model
     public static function getRecent(int $limit): array
     {
         $db = App::get('database');
-        return $db->fetchAll("SELECT * FROM" . static::$table . " ORDER BY created_at DESC LIMIT ?", [$limit]);
+        return $db->fetchAll("SELECT * FROM " . static::$table . " ORDER BY created_at DESC LIMIT ?", [$limit], static::class);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Post;
+
 class PostController
 {
     public function index(): string
@@ -11,6 +13,8 @@ class PostController
     public function show(array $params): string
     {
         $id = $params['id'];
-        return "Post $id";
+        $post = Post::find($id);
+
+        return "$post->title - $id";
     }
 }

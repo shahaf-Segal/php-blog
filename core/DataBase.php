@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Model;
+
 use Exception;
 use PDO;
 use PDOStatement;
@@ -38,28 +40,28 @@ class DataBase
             default => throw new Exception("Error: Driver Unsupported $driver"),
         };
     }
-    public function query(string $sql, array $params = []): PDOStatement
+    public function query(string $sql, array $params = [], ?string $class = null): PDOStatement
     {
         $statement = $this->pdo->prepare($sql);
+        if ($class) {
+            $statement->setFetchMode(PDO::FETCH_CLASS, $class);
+        }
         $statement->execute($params);
         return $statement;
     }
 
+
+
     public function fetchAll(string $sql, array $params = [], ?string $class = null): array
     {
-        $statement = $this->query($sql, $params);
-        return ($class ?
-            $statement->fetchAll(PDO::FETCH_CLASS, $class) :
-            $statement->fetchAll(PDO::FETCH_ASSOC)
-        );
+        $statement = $this->query($sql, $params, $class);
+        return $statement->fetchAll();
     }
-    public function fetch(string $sql, array $params = [], ?string $class = null): array|false
+    public function fetch(string $sql, array $params = [], ?string $class = null): Model|false
     {
-        $statement = $this->query($sql, $params);
-        return ($class ?
-            $statement->fetch(PDO::FETCH_CLASS, $class) :
-            $statement->fetch(PDO::FETCH_ASSOC)
-        );
+        $statement = $this->query($sql, $params, $class);
+        $result = $statement->fetch();
+        return $result;
     }
     public function lastInsertId(): string|false
     {

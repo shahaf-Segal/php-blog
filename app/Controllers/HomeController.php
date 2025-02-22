@@ -11,7 +11,7 @@ class HomeController
     {
         $posts = Post::getRecent(5);
         return View::render(
-            template: 'Home/index',
+            template: 'home/index',
             data: [
                 'posts' => $posts
             ],

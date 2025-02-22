@@ -11,7 +11,14 @@ class PostController
 {
     public function index(): string
     {
-        return 'Posts!';
+        $posts = Post::getRecent(5);
+        return View::render(
+            template: 'post/index',
+            data: [
+                'posts' => $posts
+            ],
+            layout: 'layouts/main'
+        );
     }
     public function show(array $params): string
     {

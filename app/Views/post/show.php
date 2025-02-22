@@ -1,6 +1,6 @@
 <div>
-    <h1><?= htmlspecialchars($post->title) ?></h1>
-    <h2><?= htmlspecialchars($post->content) ?></h2>
+    <h2><?= htmlspecialchars($post->title) ?></h2>
+    <p><?= htmlspecialchars($post->content) ?></p>
     <p>Views: <?= $post->views ?> ,<?= $post->created_at ?></p>
     <?php foreach ($comments as $comment): ?>
         <article>

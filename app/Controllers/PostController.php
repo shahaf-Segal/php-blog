@@ -11,11 +11,13 @@ class PostController
 {
     public function index(): string
     {
-        $posts = Post::getRecent(5);
+        $search = $_GET['search'] ?? '';
+        $posts = Post::search(limit: 10, search: $search);
         return View::render(
             template: 'post/index',
             data: [
-                'posts' => $posts
+                'posts' => $posts,
+                'search' => $search
             ],
             layout: 'layouts/main'
         );

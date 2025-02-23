@@ -12,6 +12,10 @@ class View
 
         return static::renderLayout($layout, $data, $content);
     }
+    public static function renderPartial(string $template, ?array $data = []): string
+    {
+        return static::renderTemplate("partials/$template", $data);
+    }
 
     protected static function renderTemplate(string $template, array $data): string
     {
@@ -25,6 +29,7 @@ class View
         require $path;
         return ob_get_clean();
     }
+
 
     protected static function renderLayout(?string $template, array $data, string $content): string
     {

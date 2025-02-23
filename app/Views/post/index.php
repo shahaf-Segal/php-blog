@@ -1,7 +1,7 @@
 <div>
     <h1>Posts</h1>
     <h2>All Posts</h2>
-    <form action="/posts" method="get">
+    <form action="" method="get">
         <input
             type="text" name="search" placeholder="Search"
             value="<?= htmlspecialchars($search) ?>">
@@ -10,5 +10,9 @@
     <?= renderPartial(
         '_posts',
         ['posts' => $posts]
+    ) ?>
+    <?= renderPartial(
+        '_pagination',
+        ['currentPage' => $currentPage, 'totalPages' => $totalPages]
     ) ?>
 </div>

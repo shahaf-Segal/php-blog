@@ -16,7 +16,8 @@ class PostController
         $pageLimit = 2;
 
         // $totalPosts = Post::count();
-        $posts = Post::getRecent(limit: 10, search: $search);
+        $posts = Post::getRecent(limit: $pageLimit, search: $search, page: $page);
+        $totalPosts = Post::count($search);
 
         return View::render(
             template: 'post/index',
@@ -24,7 +25,7 @@ class PostController
                 'posts' => $posts,
                 'search' => $search,
                 'currentPage' => $page,
-                // 'totalPages' => ceil(count($posts) / $pageLimit)
+                'totalPages' => ceil($totalPosts / $pageLimit)
             ],
             layout: 'layouts/main'
         );

@@ -18,12 +18,7 @@ class Post extends Model
     public $views;
     public $created_at;
 
-    public static function getRecent(?int $limit = DEFAULT_LIMIT): array
-    {
-        $db = App::get('database');
-        return $db->fetchAll("SELECT * FROM " . static::$table . " ORDER BY created_at DESC LIMIT ?", [$limit], static::class);
-    }
-    public static function search(?int $limit = DEFAULT_LIMIT, ?string $search = null): array
+    public static function getRecent(?int $limit = DEFAULT_LIMIT, ?string $search = null): array
     {
         $db = App::get('database');
         $query = "SELECT * FROM " . static::$table;

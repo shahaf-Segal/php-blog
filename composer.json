@@ -15,6 +15,7 @@
     },
      "scripts": {
         "schema:load": "php bin/schema_load.php",
-        "schema:fix": "php bin/schema_fixtures.php"
+        "schema:fix": "php bin/schema_fixtures.php",
+        "server": "php -S localhost:8000 -t public"
     }
 }

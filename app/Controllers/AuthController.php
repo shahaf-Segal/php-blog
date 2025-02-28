@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\Auth;
 use Core\View;
 
 class AuthController
@@ -12,6 +13,10 @@ class AuthController
     }
     public static function store(): string
     {
-        return View::render('auth/store', layout: 'layouts/main');
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+        echo Auth::attempt($email, $password);
+        die("posted");
+        // return View::render('auth/store', layout: 'layouts/main');
     }
 }

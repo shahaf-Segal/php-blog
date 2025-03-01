@@ -15,5 +15,6 @@ class Auth
             //signed in
             return true;
         }
+        return false;
     }
 }

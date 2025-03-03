@@ -20,7 +20,7 @@ class Router
     {
         $route = $this->findRoute($uri, $method);
         if ($route === null) {
-            return static::notFound();
+            static::notFound();
         }
         [$controller, $action] = explode('@', $route['controller']);
         return $this->callAction($controller, $action, $route['params']);
@@ -73,5 +73,10 @@ class Router
         $controllerClass = "App\\Controllers\\" . $controller;
         $controllerInstance = new $controllerClass;
         return $controllerInstance->$action($params);
+    }
+    public static function redirect(string $uri): void
+    {
+        header("Location: $uri");
+        exit;
     }
 }

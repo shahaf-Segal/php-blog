@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\Auth;
+use Core\Router;
 use Core\View;
 
 class AuthController
@@ -11,12 +12,14 @@ class AuthController
     {
         return View::render('auth/create', layout: 'layouts/main');
     }
-    public static function store(): string
+    public static function store(): void
     {
         $email = $_POST['email'] ?? null;
         $password = $_POST['password'] ?? null;
-        echo Auth::attempt($email, $password);
-        die("posted");
-        // return View::render('auth/store', layout: 'layouts/main');
+        if (Auth::attempt($email, $password)) {
+            Router::redirect('/');
+        } else {
+            Router::redirect('/login');
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Model;
+use Core\App;
 
 
 class User extends Model
@@ -20,7 +21,12 @@ class User extends Model
 
     public static function findByEmail(string $email): User|false
     {
-        return static::find(['email' => $email]);
+        $db = App::get('database');
+        return $db->fetch(
+            "SELECT * FROM " . static::$table . " WHERE email = ?",
+            [$email],
+            static::class
+        );
     }
     public function verifyPassword(string $password): bool
     {

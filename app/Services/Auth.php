@@ -30,4 +30,9 @@ class Auth
         $userID = $_SESSION['user_id'] ?? null;
         return $userID ? User::find($userID) : null;
     }
+    public static function logout(): void
+    {
+        session_destroy();
+        static::$user = null;
+    }
 }

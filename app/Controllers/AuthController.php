@@ -22,4 +22,9 @@ class AuthController
             Router::redirect('/login');
         }
     }
+    public static function destroy(): void
+    {
+        Auth::logout();
+        Router::redirect('/');
+    }
 }

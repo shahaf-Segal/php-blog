@@ -6,8 +6,15 @@ use RuntimeException;
 
 class View
 {
+    protected static $GLOBALS = [];
+
+    public static function globalShare(string $key, mixed $value): void
+    {
+        static::$GLOBALS[$key] = $value;
+    }
     public static function render(string $template, array $data = [], ?string $layout = null): string
     {
+        $data = [...static::$GLOBALS, ...$data];
         $content = static::renderTemplate($template, $data);
 
         return static::renderLayout($layout, $data, $content);

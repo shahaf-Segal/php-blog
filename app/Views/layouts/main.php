@@ -16,8 +16,10 @@
         <a href="/">Home</a>
         <a href="/posts">Posts</a>
         <?php if ($user): ?>
-            <a href="/logout">Logout</a>
-        <?php endif; ?>
+            <a href="/logout">Logout (<?= $user->name ?>)</a>
+        <?php else: ?>
+            <a href="/login">Login</a>
+        <?php endif ?>
     </nav>
     <main>
         <?= $content ?>

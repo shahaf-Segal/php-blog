@@ -17,6 +17,10 @@
         <a href="/posts">Posts</a>
         <?php if ($user): ?>
             <a href="/logout">Logout (<?= $user->name ?>)</a>
+            <form action="/logout" method="POST">
+                <!-- Place for CSRF -->
+                <button type="submit">Logout (<?= $user->name ?>)</button>
+            </form>
         <?php else: ?>
             <a href="/login">Login</a>
         <?php endif ?>

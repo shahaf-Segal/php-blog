@@ -8,6 +8,9 @@ use App\Models\User;
 
 class Auth
 {
+
+    protected static $user = null;
+
     public static function attempt(string $email, string $password): bool
     {
         $user = User::findByEmail($email);
@@ -18,5 +21,13 @@ class Auth
             return true;
         }
         return false;
+    }
+    public static function user(): ?User
+    {
+        if (static::$user) {
+            return static::$user;
+        }
+        $userID = $_SESSION['user_id'] ?? null;
+        return $userID ? User::find($userID) : null;
     }
 }

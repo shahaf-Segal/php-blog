@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\App;
 use Core\Model;
 
 class RememberToken extends Model
@@ -19,8 +20,18 @@ class RememberToken extends Model
     {
         $this->token = static::generateToken();
         $this->expires_at = static::getExpiryDate();
-        $this->save();
-        return $this;
+        return $this->save();
+    }
+    public static function findValid(string $token): ?static{
+        $db=App::get('database');
+        $currentDate = date('Y-m-d H:i:s');
+        $sql="SELECT * FROM " 
+        . static::$table 
+        . " WHERE token = ? AND expires_at > ? "
+        ."LIMIT 1";
+        $result=$db->fetch($sql,[$token,$currentDate],static::class);
+        return $result??null;
+
     }
 
     private static function generateToken(): string

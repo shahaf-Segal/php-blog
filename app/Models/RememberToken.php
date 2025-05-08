@@ -22,16 +22,27 @@ class RememberToken extends Model
         $this->expires_at = static::getExpiryDate();
         return $this->save();
     }
-    public static function findValid(string $token): ?static{
-        $db=App::get('database');
+    public static function findValid(string $token): ?static
+    {
+        $db = App::get('database');
         $currentDate = date('Y-m-d H:i:s');
-        $sql="SELECT * FROM " 
-        . static::$table 
-        . " WHERE token = ? AND expires_at > ? "
-        ."LIMIT 1";
-        $result=$db->fetch($sql,[$token,$currentDate],static::class);
-        return $result??null;
-
+        $sql = "SELECT * FROM "
+            . static::$table
+            . " WHERE token = ? AND expires_at > ? "
+            . "LIMIT 1";
+        $result = $db->fetch($sql, [$token, $currentDate], static::class);
+        return $result ?? null;
+    }
+    public function delete(): void
+    {
+        if (!isset($this->id)) {
+            return;
+        }
+        $db = App::get('database');
+        $sql = "DELETE FROM "
+            . static::$table
+            . " WHERE id = ?";
+        $db->query($sql, [$this->id]);
     }
 
     private static function generateToken(): string
